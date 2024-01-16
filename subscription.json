@@ -31,6 +31,12 @@
       "metadata": {
         "description": "Managed Partner ID"
       }
+    },
+    "systemToken": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Azure AD Authentication Token"
+      }
     }
   },
   "variables": {
@@ -72,17 +78,23 @@
       }
     },
     {
-      "type": "http",
+      "type": "Microsoft.Resources/deployments", 
       "apiVersion": "2020-01-01",
       "name": "putRequest",
       "dependsOn": [
         "[resourceId('Microsoft.ManagedServices/registrationAssignments', variables('mspAssignmentName'))]"
       ],
       "properties": {
-        "method": "[variables('putRequest').method]",
-        "uri": "[variables('putRequest').url]",
-        "headers": "[variables('putRequest').headers]",
-        "body": "[json(variables('putRequest').data)]"
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('putRequest').url]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "method": { "value": "[variables('putRequest').method]" },
+          "headers": { "value": "[variables('putRequest').headers]" },
+          "body": { "value": "[json(variables('putRequest').data)]" }
+        }
       }
     }
   ],
