@@ -14,7 +14,7 @@
         "roleDefinitionId": "b24988ac-6180-42a0-ab88-20f7382dd24c"
       },
       {
-        "partnerId": "31415927"  // Added JSON payload
+        "partnerId": "31415927"  
       }
     ]
   },
