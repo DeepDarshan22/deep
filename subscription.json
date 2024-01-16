@@ -5,19 +5,19 @@
         "mspOfferName": {
             "type": "string",
             "metadata": {
-                "description": "THG"
+                "description": "Specify a unique name for your offer"
             }
         },
         "mspOfferDescription": {
             "type": "string",
             "metadata": {
-                "description": "THGSupprt"
+                "description": "Name of the Managed Service Provider offering"
             }
         },
         "managedByTenantId": {
             "type": "string",
             "metadata": {
-                "description": "57d8e242-0f7a-42a2-93fb-a9cfdf281b9e"
+                "description": "Specify the tenant id of the Managed Service Provider"
             }
         },
         "authorizations": {
@@ -39,8 +39,8 @@
             "properties": {
                 "registrationDefinitionName": "[parameters('mspOfferName')]",
                 "description": "[parameters('mspOfferDescription')]",
-                "managedByTenantId": "[parameters('57d8e242-0f7a-42a2-93fb-a9cfdf281b9e')]",
-                "authorizations": "[parameters('')]"
+                "managedByTenantId": "[parameters('managedByTenantId')]",
+                "authorizations": "[parameters('authorizations')]"
             }
         },
         {
@@ -58,11 +58,11 @@
     "outputs": {
         "mspOfferName": {
             "type": "string",
-            "value": "[concat('Managed by', ' ', parameters('THG Support MSP'))]"
+            "value": "[concat('Managed by', ' ', parameters('mspOfferName'))]"
         },
         "authorizations": {
             "type": "array",
-            "value": "[{"principalId":"57d8e242-0f7a-42a2-93fb-a9cfdf281b9e","roleDefinitionId":"b24988ac-6180-42a0-ab88-20f7382dd24c","principalIdDisplayName":"Lighthouse Contributor"}]"
+            "value": "[parameters('authorizations')]"
         }
     }
 }
