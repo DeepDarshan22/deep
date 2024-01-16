@@ -4,21 +4,18 @@
     "parameters": {
         "mspOfferName": {
             "type": "string",
-            "defaultValue": "THG Support",  // Set "THG Support" as the default value
             "metadata": {
                 "description": "Specify a unique name for your offer"
             }
         },
         "mspOfferDescription": {
             "type": "string",
-            "defaultValue": "DefaultOfferDescription",  // Add default value here
             "metadata": {
                 "description": "Name of the Managed Service Provider offering"
             }
         },
         "managedByTenantId": {
             "type": "string",
-            "defaultValue": "DefaultManagedByTenantId",  // Add default value here
             "metadata": {
                 "description": "Specify the tenant id of the Managed Service Provider"
             }
@@ -27,8 +24,7 @@
             "type": "array",
             "metadata": {
                 "description": "Specify an array of objects, containing tuples of Azure Active Directory principalId, a Azure roleDefinitionId, and an optional principalIdDisplayName. The roleDefinition specified is granted to the principalId in the provider's Active Directory and the principalIdDisplayName is visible to customers."
-            },
-            "defaultValue": []  // Add default value for the authorizations array if needed
+            }
         }              
     },
     "variables": {
