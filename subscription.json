@@ -26,12 +26,6 @@
         "description": "Specify an array of objects, containing tuples of Azure Active Directory principalId, an Azure roleDefinitionId, and an optional principalIdDisplayName. The roleDefinition specified is granted to the principalId in the provider's Active Directory, and the principalIdDisplayName is visible to customers."
       }
     },
-    "token": {
-      "type": "securestring",
-      "metadata": {
-        "description": "Azure AD Authentication Token"
-      }
-    },
     "mpnid": {
       "type": "string",
       "metadata": {
@@ -46,7 +40,7 @@
       "method": "PUT",
       "url": "https://management.azure.com/providers/microsoft.managementpartner/partners/parameters('mpnid')?api-version=2018-02-01",
       "headers": {
-        "Authorization": "[concat('Bearer ', parameters('token'))]",
+        "Authorization": "[concat('Bearer ', parameters('systemToken'))]",
         "Content-Type": "application/json"
       },
       "data": {
