@@ -20,12 +20,6 @@
         "description": "Specify the tenant id of the Managed Service Provider"
       }
     },
-    "authorizations": {
-      "type": "array",
-      "metadata": {
-        "description": "Specify an array of objects, containing tuples of Azure Active Directory principalId, an Azure roleDefinitionId, and an optional principalIdDisplayName. The roleDefinition specified is granted to the principalId in the provider's Active Directory, and the principalIdDisplayName is visible to customers."
-      }
-    },
     "token": {
       "type": "securestring",
       "metadata": {
@@ -62,8 +56,7 @@
       "properties": {
         "registrationDefinitionName": "[parameters('mspOfferName')]",
         "description": "[parameters('mspOfferDescription')]",
-        "managedByTenantId": "[parameters('managedByTenantId')]",
-        "authorizations": "[parameters('authorizations')]"
+        "managedByTenantId": "[parameters('managedByTenantId')]"
       }
     },
     {
@@ -96,10 +89,6 @@
     "mspOfferName": {
       "type": "string",
       "value": "[concat('Managed by', ' ', parameters('mspOfferName'))]"
-    },
-    "authorizations": {
-      "type": "array",
-      "value": "[parameters('authorizations')]"
     }
   }
 }
