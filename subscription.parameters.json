@@ -1,27 +1,24 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentParameters.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-        "mspOfferName": {
-            "value": "The Henson Group"
-        },
-        "mspOfferDescription": {
-            "value": "The Henson Group MSP"
-        },
-        "managedByTenantId": {
-            "value": "57d8e242-0f7a-42a2-93fb-a9cfdf281b9e"
-        },
-        "authorizations": {
-            "value": [
-                { 
-                    "principalId": "a845ac3d-1bc7-4906-a6c7-a97f5a3c9b4b", 
-                    "roleDefinitionId": "acdd72a7-3385-48ef-bd42-f606fba81ae7",
-                    "principalIdDisplayName": "Lighthouse Contributor" 
-                }
-                
-                    ]
-                }
-                    
-                }                
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "mspOfferName": {
+      "value": "THG Support"
+    },
+    "mspOfferDescription": {
+      "value": "THG Support MSP"
+    },
+    "managedByTenantId": {
+      "value": "57d8e242-0f7a-42a2-93fb-a9cfdf281b9e"
+    },
+    "authorizations": {
+      "value": [
+        {
+          "principalId": "57d8e242-0f7a-42a2-93fb-a9cfdf281b9e",
+          "roleDefinitionId": "b24988ac-6180-42a0-ab88-20f7382dd24c",
+          "principalIdDisplayName": "Lighthouse Contributor"
         }
-
+      ]
+    }
+  }
+}
