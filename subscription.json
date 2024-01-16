@@ -1,5 +1,7 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+  "$schema": "
+https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#"
+,
   "contentVersion": "1.0.0.0",
   "parameters": {
     "mspOfferName": {
@@ -25,13 +27,36 @@
       "metadata": {
         "description": "Specify an array of objects, containing tuples of Azure Active Directory principalId, an Azure roleDefinitionId, and an optional principalIdDisplayName. The roleDefinition specified is granted to the principalId in the provider's Active Directory, and the principalIdDisplayName is visible to customers."
       }
+    },
+    "token": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Azure AD Authentication Token"
+      }
+    },
+    "mpnid": {
+      "type": "string",
+      "metadata": {
+        "description": "Managed Partner ID"
+      }
     }
   },
   "variables": {
     "mspRegistrationName": "[guid(parameters('mspOfferName'))]",
     "mspAssignmentName": "[guid(parameters('mspOfferName'))]",
-    "scriptExtensionName": "RunPowerShellScript",
-    "scriptCommand": "[concat('Connect-AzAccount; new-AzManagementPartner -PartnerId 12345; Disconnect-AzAccount')]"
+    "putRequest": {
+      "method": "PUT",
+      "url": "
+https://management.azure.com/providers/microsoft.managementpartner/partners/parameters('mpnid')?api-version=2018-02-01"
+,
+      "headers": {
+        "Authorization": "[concat('Bearer ', parameters('token'))]",
+        "Content-Type": "application/json"
+      },
+      "data": {
+        "partnerId": "[parameters('mpnid')]"
+      }
+    }
   },
   "resources": [
     {
@@ -50,28 +75,24 @@
       "apiVersion": "2019-09-01",
       "name": "[variables('mspAssignmentName')]",
       "dependsOn": [
-        "[resourceId('Microsoft.ManagedServices/registrationDefinitions/', variables('mspRegistrationName'))]",
-        "[resourceId('Microsoft.Compute/virtualMachines/extensions', 'yourVMName', variables('scriptExtensionName'))]"
-      ]
+        "[resourceId('Microsoft.ManagedServices/registrationDefinitions/', variables('mspRegistrationName'))]"
+      ],
+      "properties": {
+        "registrationDefinitionId": "[resourceId('Microsoft.ManagedServices/registrationDefinitions/', variables('mspRegistrationName'))]"
+      }
     },
     {
-      "type": "Microsoft.Compute/virtualMachines/extensions",
-      "apiVersion": "2019-07-01",
-      "name": "[concat(parameters('vmName'), '/', variables('scriptExtensionName'))]",
-      "location": "[resourceGroup().location]",
+      "type": "http",
+      "apiVersion": "2020-01-01",
+      "name": "putRequest",
       "dependsOn": [
-        "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]",
         "[resourceId('Microsoft.ManagedServices/registrationAssignments', variables('mspAssignmentName'))]"
       ],
       "properties": {
-        "publisher": "Microsoft.Compute",
-        "type": "CustomScriptExtension",
-        "typeHandlerVersion": "1.10",
-        "autoUpgradeMinorVersion": true,
-        "settings": {
-          "script": "[variables('scriptCommand')]"
-        },
-        "protectedSettings": {}
+        "method": "[variables('putRequest').method]",
+        "uri": "[variables('putRequest').url]",
+        "headers": "[variables('putRequest').headers]",
+        "body": "[json(variables('putRequest').data)]"
       }
     }
   ],
