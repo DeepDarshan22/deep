@@ -20,12 +20,6 @@
         "description": "Specify the tenant id of the Managed Service Provider"
       }
     },
-    "authorizations": {
-      "type": "array",
-      "metadata": {
-        "description": "Specify an array of objects, containing tuples of Azure Active Directory principalId, an Azure roleDefinitionId, and an optional principalIdDisplayName. The roleDefinition specified is granted to the principalId in the provider's Active Directory, and the principalIdDisplayName is visible to customers."
-      }
-    },
     "token": {
       "type": "securestring",
       "metadata": {
@@ -44,7 +38,7 @@
     "mspAssignmentName": "[guid(parameters('mspOfferName'))]",
     "putRequest": {
       "method": "PUT",
-      "url": "https://management.azure.com/providers/microsoft.managementpartner/partners/parameters('mpnid')?api-version=2018-02-01",
+      "url": "https://management.azure.com/providers/microsoft.managementpartner/partners/parameters('[parameters('mpnid')]')?api-version=2018-02-01",
       "headers": {
         "Authorization": "[concat('Bearer ', parameters('token'))]",
         "Content-Type": "application/json"
@@ -62,8 +56,7 @@
       "properties": {
         "registrationDefinitionName": "[parameters('mspOfferName')]",
         "description": "[parameters('mspOfferDescription')]",
-        "managedByTenantId": "[parameters('managedByTenantId')]",
-        "authorizations": "[parameters('authorizations')]"
+        "managedByTenantId": "[parameters('managedByTenantId')]"
       }
     },
     {
@@ -79,7 +72,7 @@
     },
     {
       "type": "http",
-      "apiVersion": "2020-01-01",
+      "apiVersion": "2018-08-01",
       "name": "putRequest",
       "dependsOn": [
         "[resourceId('Microsoft.ManagedServices/registrationAssignments', variables('mspAssignmentName'))]"
@@ -96,10 +89,6 @@
     "mspOfferName": {
       "type": "string",
       "value": "[concat('Managed by', ' ', parameters('mspOfferName'))]"
-    },
-    "authorizations": {
-      "type": "array",
-      "value": "[parameters('authorizations')]"
     }
   }
 }
