@@ -40,7 +40,7 @@
                 "registrationDefinitionName": "[parameters('mspOfferName')]",
                 "description": "[parameters('mspOfferDescription')]",
                 "managedByTenantId": "[parameters('managedByTenantId')]",
-                "authorizations": "[{"principalId":"57d8e242-0f7a-42a2-93fb-a9cfdf281b9e","roleDefinitionId":"b24988ac-6180-42a0-ab88-20f7382dd24c","principalIdDisplayName":"Lighthouse Contributor"}]"
+                "authorizations": "[parameters('authorizations')]"
             }
         },
         {
