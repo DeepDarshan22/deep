@@ -58,7 +58,7 @@
     "outputs": {
         "mspOfferName": {
             "type": "string",
-            "value": "[concat('Managed by', ' ', parameters('mspOfferName'))]"
+            "value": "[concat('Managed by', ' ', parameters('THG Support MSP'))]"
         },
         "authorizations": {
             "type": "array",
