@@ -39,8 +39,8 @@
             "properties": {
                 "registrationDefinitionName": "[parameters('mspOfferName')]",
                 "description": "[parameters('mspOfferDescription')]",
-                "managedByTenantId": "[parameters('managedByTenantId')]",
-                "authorizations": "[parameters('authorizations')]"
+                "managedByTenantId": "[parameters('57d8e242-0f7a-42a2-93fb-a9cfdf281b9e')]",
+                "authorizations": "[parameters('')]"
             }
         },
         {
