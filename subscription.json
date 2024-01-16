@@ -69,20 +69,6 @@
       "properties": {
         "registrationDefinitionId": "[resourceId('Microsoft.ManagedServices/registrationDefinitions/', variables('mspRegistrationName'))]"
       }
-    },
-    {
-      "type": "http",
-      "apiVersion": "2020-01-01",
-      "name": "putRequest",
-      "dependsOn": [
-        "[resourceId('Microsoft.ManagedServices/registrationAssignments', variables('mspAssignmentName'))]"
-      ],
-      "properties": {
-        "method": "[variables('putRequest').method]",
-        "uri": "[variables('putRequest').url]",
-        "headers": "[variables('putRequest').headers]",
-        "body": "[json(variables('putRequest').data)]"
-      }
     }
   ],
   "outputs": {
