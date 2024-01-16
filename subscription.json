@@ -45,8 +45,7 @@
     "mspAssignmentName": "[guid(parameters('mspOfferName'))]",
     "putRequest": {
       "method": "PUT",
-      "url": "
-https://management.azure.com/providers/microsoft.managementpartner/partners/parameters('mpnid')?api-version=2018-02-01"
+      "url": "https://management.azure.com/providers/microsoft.managementpartner/partners/parameters('mpnid')?api-version=2018-02-01"
 ,
       "headers": {
         "Authorization": "[concat('Bearer ', parameters('token'))]",
