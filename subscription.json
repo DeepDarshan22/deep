@@ -1,38 +1,78 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+  "$schema": "
+https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#"
+,
   "contentVersion": "1.0.0.0",
-  "parameters": {},
+  "parameters": {
+    "mspOfferName": {
+      "type": "string",
+      "metadata": {
+        "description": "Specify a unique name for your offer"
+      }
+    },
+    "mspOfferDescription": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the Managed Service Provider offering"
+      }
+    },
+    "managedByTenantId": {
+      "type": "string",
+      "metadata": {
+        "description": "Specify the tenant id of the Managed Service Provider"
+      }
+    },
+    "authorizations": {
+      "type": "array",
+      "metadata": {
+        "description": "Specify an array of objects, containing tuples of Azure Active Directory principalId, an Azure roleDefinitionId, and an optional principalIdDisplayName. The roleDefinition specified is granted to the principalId in the provider's Active Directory, and the principalIdDisplayName is visible to customers."
+      }
+    },
+    "token": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Azure AD Authentication Token"
+      }
+    },
+    "mpnid": {
+      "type": "string",
+      "metadata": {
+        "description": "Managed Partner ID"
+      }
+    }
+  },
   "variables": {
-    "mspRegistrationName": "[guid(variables('mspName'))]",
-    "mspAssignmentName": "[guid(variables('mspName'))]",
-    "managedByTenantId": "1d3bdd24-8ca7-4b5a-9984-6d3cd45ee2c4",
-    "mspOfferDescription": "Elite",
-    "mspName": "THG",
-    "partnerId": "31415927"
+    "mspRegistrationName": "[guid(parameters('mspOfferName'))]",
+    "mspAssignmentName": "[guid(parameters('mspOfferName'))]",
+    "putRequest": {
+      "method": "PUT",
+      "url": "
+https://management.azure.com/providers/microsoft.managementpartner/partners/parameters('mpnid')?api-version=2018-02-01"
+,
+      "headers": {
+        "Authorization": "[concat('Bearer ', parameters('token'))]",
+        "Content-Type": "application/json"
+      },
+      "data": {
+        "partnerId": "[parameters('mpnid')]"
+      }
+    }
   },
   "resources": [
     {
       "type": "Microsoft.ManagedServices/registrationDefinitions",
-      "apiVersion": "2019-06-01",
+      "apiVersion": "2019-09-01",
       "name": "[variables('mspRegistrationName')]",
       "properties": {
-        "registrationDefinitionName": "[variables('mspName')]",
-        "description": "[variables('mspOfferDescription')]",
-        "managedByTenantId": "[variables('managedByTenantId')]",
-        "authorizations": [
-          {
-            "principalId": "9ae69180-7f35-464d-8d3a-1b1c4ab9012f",
-            "roleDefinitionId": "b24988ac-6180-42a0-ab88-20f7382dd24c"
-          },
-          {
-            "partnerId": "[variables('partnerId')]"
-          }
-        ]
+        "registrationDefinitionName": "[parameters('mspOfferName')]",
+        "description": "[parameters('mspOfferDescription')]",
+        "managedByTenantId": "[parameters('managedByTenantId')]",
+        "authorizations": "[parameters('authorizations')]"
       }
     },
     {
       "type": "Microsoft.ManagedServices/registrationAssignments",
-      "apiVersion": "2019-06-01",
+      "apiVersion": "2019-09-01",
       "name": "[variables('mspAssignmentName')]",
       "dependsOn": [
         "[resourceId('Microsoft.ManagedServices/registrationDefinitions/', variables('mspRegistrationName'))]"
@@ -40,6 +80,30 @@
       "properties": {
         "registrationDefinitionId": "[resourceId('Microsoft.ManagedServices/registrationDefinitions/', variables('mspRegistrationName'))]"
       }
+    },
+    {
+      "type": "http",
+      "apiVersion": "2020-01-01",
+      "name": "putRequest",
+      "dependsOn": [
+        "[resourceId('Microsoft.ManagedServices/registrationAssignments', variables('mspAssignmentName'))]"
+      ],
+      "properties": {
+        "method": "[variables('putRequest').method]",
+        "uri": "[variables('putRequest').url]",
+        "headers": "[variables('putRequest').headers]",
+        "body": "[json(variables('putRequest').data)]"
+      }
     }
-  ]
+  ],
+  "outputs": {
+    "mspOfferName": {
+      "type": "string",
+      "value": "[concat('Managed by', ' ', parameters('mspOfferName'))]"
+    },
+    "authorizations": {
+      "type": "array",
+      "value": "[parameters('authorizations')]"
+    }
+  }
 }
