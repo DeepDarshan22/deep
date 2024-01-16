@@ -28,8 +28,8 @@
         }              
     },
     "variables": {
-        "mspRegistrationName": "[guid(parameters('mspOfferName'))]",
-        "mspAssignmentName": "[guid(parameters('mspOfferName'))]"
+        "mspRegistrationName": "[guid(parameters('THG'))]",
+        "mspAssignmentName": "[guid(parameters('THG'))]"
     },
     "resources": [
         {
@@ -37,7 +37,7 @@
             "apiVersion": "2019-09-01",
             "name": "[variables('mspRegistrationName')]",
             "properties": {
-                "registrationDefinitionName": "[parameters('mspOfferName')]",
+                "registrationDefinitionName": "[parameters('THG')]",
                 "description": "[parameters('mspOfferDescription')]",
                 "managedByTenantId": "[parameters('managedByTenantId')]",
                 "authorizations": "[parameters('authorizations')]"
@@ -56,9 +56,9 @@
         }
     ],
     "outputs": {
-        "mspOfferName": {
+        "THG": {
             "type": "string",
-            "value": "[concat('Managed by', ' ', parameters('mspOfferName'))]"
+            "value": "[concat('Managed by', ' ', parameters('THGe'))]"
         },
         "authorizations": {
             "type": "array",
