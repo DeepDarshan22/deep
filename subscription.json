@@ -5,12 +5,12 @@
   "variables": {
     "mspRegistrationName": "[guid(variables('mspName'))]",
     "mspAssignmentName": "[guid(variables('mspName'))]",
-    "managedByTenantId": "57d8e242-0f7a-42a2-93fb-a9cfdf281b9e",
+    "managedByTenantId": "1d3bdd24-8ca7-4b5a-9984-6d3cd45ee2c4",
     "mspOfferDescription": "Elite",
     "mspName": "THG",
     "authorizations": [
       {
-        "principalId": "a845ac3d-1bc7-4906-a6c7-a97f5a3c9b4b",
+        "principalId": "9ae69180-7f35-464d-8d3a-1b1c4ab9012f",
         "roleDefinitionId": "b24988ac-6180-42a0-ab88-20f7382dd24c"
       }
     ]
